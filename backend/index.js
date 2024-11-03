@@ -4,6 +4,10 @@ import cors from 'cors';
 
 import dotenv from 'dotenv';
 
+import passport from 'passport';
+import session from 'express-session';
+import connectMongo, { MongoDBStore } from 'connect-mongodb-session';
+
 
 import { ApolloServer } from '@apollo/server';
 // import { startStandaloneServer } from '@apollo/server/standalone';
@@ -24,6 +28,35 @@ const app = express();
 dotenv.config();
 
 const httpServer = http.createServer(app);
+
+const MongoDBStore = connectMongo(session);
+
+const store = new MongoDBStore({
+    uri: process.env.MONGODB_URI,
+    collection: 'sessions',
+    });
+
+
+// ERROR HANDLING
+store.on("error",(err) => console.lot(err));
+
+app.use(
+    session({
+        secret: process.env.SECRET,
+        resave: false, // this option specifies whether to save the sesion to the store on every request
+        saveUninitialized: false, // option specifies whether to save uninitialised sessions
+        cookie:{
+            maxAge: 1000*60*60*24*7,
+            httpOnly: true, // prevents cross side scripting attack
+        },
+        store: store
+        })
+)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 const server = new ApolloServer({
     typeDefs: mergedTypeDefs,
