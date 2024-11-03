@@ -14,6 +14,8 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
+import { buildContext } from 'graphql-passport';
+
 
 // import mergedResolvers from './resolvers/index.js';
 // import mergedTypeDefs from './typeDefs/index.js';
@@ -23,9 +25,16 @@ import mergedTypeDefs from "./typeDefs/index.js";
 import { connect } from 'http2';
 import { connectDB } from './db/connectDB.js';
 
+import { configurePassport } from './passport/passport.config.js';
+
+
+
 const app = express();
 
 dotenv.config();
+configurePassport();
+
+
 
 const httpServer = http.createServer(app);
 
@@ -86,13 +95,16 @@ await server.start();
 // and our expressMiddleware function.
 app.use(
     '/',
-    cors(),
+    cors({
+        origin: 'http://localhost:4000',
+        credentials: true,
+    }),
     express.json(),
     // expressMiddleware accepts the same arguments:
     // an Apollo Server instance and optional configuration options
     expressMiddleware(server, {
     //   context: async ({ req }) => ({ token: req.headers.token }),
-      context: async ({ req }) => ({ req }),
+      context: async ({ req,res }) => buildContext({ req,res }),
     }),
   );
   
