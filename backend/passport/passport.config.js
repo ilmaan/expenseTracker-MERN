@@ -2,7 +2,7 @@ import possport from "passport";
 
 import bcrypt from "bcryptjs";
 
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 
 import { GraphQLLocalStrategy } from "graphql-passport";
 import passport from "passport";

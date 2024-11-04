@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 import passport from 'passport';
 import session from 'express-session';
-import connectMongo, { MongoDBStore } from 'connect-mongodb-session';
+// import connectMongo, { MongoDBStore } from 'connect-mongodb-session';
 
 
 import { ApolloServer } from '@apollo/server';
@@ -25,6 +25,8 @@ import mergedTypeDefs from "./typeDefs/index.js";
 import { connect } from 'http2';
 import { connectDB } from './db/connectDB.js';
 
+import connectMongo from 'connect-mongodb-session';
+
 import { configurePassport } from './passport/passport.config.js';
 
 
@@ -41,13 +43,12 @@ const httpServer = http.createServer(app);
 const MongoDBStore = connectMongo(session);
 
 const store = new MongoDBStore({
-    uri: process.env.MONGODB_URI,
-    collection: 'sessions',
-    });
-
+	uri: process.env.MONGO_URI,
+	collection: "sessions",
+});
 
 // ERROR HANDLING
-store.on("error",(err) => console.lot(err));
+store.on("error",(err) => console.log(err));
 
 app.use(
     session({
