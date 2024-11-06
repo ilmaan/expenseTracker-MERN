@@ -42,17 +42,29 @@ const httpServer = http.createServer(app);
 
 const MongoDBStore = connectMongo(session);
 
+// const store = new MongoDBStore({
+// 	uri: process.env.MONGO_URI,
+// 	collection: "sessions",
+// });
+
+
 const store = new MongoDBStore({
-	uri: process.env.MONGO_URI,
-	collection: "sessions",
+  uri: process.env.MONGO_URI,
+  collection: "sessions",
+  // Add SSL options if necessary
+  options: {
+      ssl: true,
+      // other options if needed
+  }
 });
+
 
 // ERROR HANDLING
 store.on("error",(err) => console.log(err));
 
 app.use(
     session({
-        secret: process.env.SECRET,
+        secret: process.env.SESSION_SECRET,
         resave: false, // this option specifies whether to save the sesion to the store on every request
         saveUninitialized: false, // option specifies whether to save uninitialised sessions
         cookie:{
@@ -95,7 +107,7 @@ await server.start();
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
 app.use(
-    '/',
+    '/graphql',
     cors({
         origin: 'http://localhost:4000',
         credentials: true,
