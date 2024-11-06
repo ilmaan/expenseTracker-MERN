@@ -10,6 +10,7 @@ import GridBackground from './components/ui/GridBackground.jsx'
 
 
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter>

@@ -29,6 +29,7 @@ const SignUpPage = () => {
 	};
 
 	const handleSubmit = async (e) => {
+		console.log("clicked");
 		e.preventDefault();
 		console.log(signUpData);
 	};
