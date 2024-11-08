@@ -60,7 +60,7 @@ const store = new MongoDBStore({
 
 
 // ERROR HANDLING
-store.on("error",(err) => console.log(err));
+store.on("error-=-=-=-=-=-",(err) => console.log(err));
 
 app.use(
     session({
@@ -107,9 +107,9 @@ await server.start();
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
 app.use(
-    '/graphql',
+    '/',
     cors({
-        origin: 'http://localhost:4000',
+        origin: 'http://localhost:3000',
         credentials: true,
     }),
     express.json(),

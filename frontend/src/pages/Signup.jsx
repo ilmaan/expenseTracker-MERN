@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 
 import InputField from "../components/ui/inputField";
 import RadioButton from "../components/ui/RadioButton";
+import { useMutation } from "@apollo/client";
+// import { SIGNUP_USER } from "../graphql/mutations/user.mutation";
+import { toast } from "react-hot-toast";
+
+import {SIGN_UP} from "../graphql/mutations/user.mutation";
+
 
 const SignUpPage = () => {
 	const [signUpData, setSignUpData] = useState({
@@ -11,6 +17,10 @@ const SignUpPage = () => {
 		password: "sheetal786**",
 		gender: "female",
 	});
+
+	
+
+	const [signUp,{loading, error}] = useMutation(SIGN_UP);
 
 	const handleChange = (e) => {
 		const { name, value, type } = e.target;
@@ -31,7 +41,14 @@ const SignUpPage = () => {
 	const handleSubmit = async (e) => {
 		console.log("clicked");
 		e.preventDefault();
-		console.log(signUpData);
+		console.log("SIGNUP DATA--->",signUpData);
+		try{
+			await signUp({variables: {input: signUpData}})
+			// console.log("Response from signup:", response); 
+		}catch(error){
+			console.log("ERROR--()()()()()()()()(->",error.message);
+			toast.error(error.message);
+		}
 	};
 
 	return (
@@ -89,9 +106,9 @@ const SignUpPage = () => {
 							<div>
 								<button
 									type='submit'
-									className='w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black  focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed'
+									className='w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black  focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed' disabled={loading}
 								>
-									Sign Up
+									{loading ? "Signing Up..." : "Sign Up"}
 								</button>
 							</div>
 						</form>

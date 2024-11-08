@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 
 const userResolver = {
 
@@ -6,6 +7,7 @@ const userResolver = {
         // SIGNUP FUNCTION
         signUp: async(_,{input},context) => {
             try{
+                console.log("SIGNUP INPUT--->");
                 const {username,name,password,gender} = input;
 
                 if (!username || !name || !password || !gender) {
@@ -36,7 +38,7 @@ const userResolver = {
                 })
 
                 await newUser.save();
-                await context.login(newuser);
+                await context.login(newUser);
 
                 return newUser;
 

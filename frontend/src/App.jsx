@@ -12,15 +12,26 @@ import Signup from "./pages/Signup"
 import Transaction from "./pages/Transaction"
 
 import Header from "./components/ui/Header"
+import { useQuery } from "@apollo/client"
+import { GET_AUTH_USER } from "./graphql/queries/user.query"
 
+import { Toaster } from "react-hot-toast"
 function App() {
   // const [count, setCount] = useState(0)
 
-  const authUser = true;
-  return (
+  // const authUser = true;
+  const{ loading, error, data } = useQuery(GET_AUTH_USER);
+
+  // console.log("DATA--AUTHENTICATED USER---->",data);
+  console.log("LOADING--->",loading);
+  console.log("ERROR--->",error);
+  console.log("DATA--->",data);
+  // console.log("AUTH USER--->",authUser);
+
+  return ( 
     <>
     
-    {authUser && <Header/>}
+    {data?.authUser && <Header/>}
       
       <Routes>
 
@@ -32,7 +43,8 @@ function App() {
           
 
       </Routes>
-      
+
+      <Toaster/>
       
     </>
   )
