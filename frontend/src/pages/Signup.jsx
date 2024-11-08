@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { toast } from "react-hot-toast";
 
 import {SIGN_UP} from "../graphql/mutations/user.mutation";
+import { GET_AUTH_USER } from "../graphql/queries/user.query";
 
 
 const SignUpPage = () => {
@@ -20,7 +21,9 @@ const SignUpPage = () => {
 
 	
 
-	const [signUp,{loading, error}] = useMutation(SIGN_UP);
+	const [signUp,{loading, error}] = useMutation(SIGN_UP,{
+		refetchQueries: [GET_AUTH_USER],
+	});
 
 	const handleChange = (e) => {
 		const { name, value, type } = e.target;
@@ -110,6 +113,7 @@ const SignUpPage = () => {
 								>
 									{loading ? "Signing Up..." : "Sign Up"}
 								</button>
+								{error && <p className="text-red-500 text-sm mt-2">{error.message}</p>}
 							</div>
 						</form>
 						<div className='mt-4 text-sm text-gray-600 text-center'>

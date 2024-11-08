@@ -51,9 +51,9 @@ const MongoDBStore = connectMongo(session);
 const store = new MongoDBStore({
   uri: process.env.MONGO_URI,
   collection: "sessions",
-  // Add SSL options if necessary
+  // Remove SSL options for testing
   options: {
-      ssl: true,
+      // ssl: true, // Commented out for testing
       // other options if needed
   }
 });

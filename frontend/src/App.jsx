@@ -14,6 +14,7 @@ import Transaction from "./pages/Transaction"
 import Header from "./components/ui/Header"
 import { useQuery } from "@apollo/client"
 import { GET_AUTH_USER } from "./graphql/queries/user.query"
+import { Navigate } from "react-router-dom"
 
 import { Toaster } from "react-hot-toast"
 function App() {
@@ -28,6 +29,8 @@ function App() {
   console.log("DATA--->",data);
   // console.log("AUTH USER--->",authUser);
 
+  if(loading) return <p>Loading...</p>;
+
   return ( 
     <>
     
@@ -35,10 +38,11 @@ function App() {
       
       <Routes>
 
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/transaction/:id" element={<Transaction />} />
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={data?.authUser ? <Home /> : <Navigate to ="/login" />} />
+          <Route path="/login" element={!data?.authUser ? <Login /> : <Navigate to ="/" />} />
+          <Route path="/signup" element={!data?.authUser ? <Signup /> : <Navigate to ="/" />} />
+          <Route path="/transaction/:id" element={!data?.authUser ? <Navigate to ="/login" /> : <Transaction />} />
           <Route path="*" element={<PageNotFound/>} />
           
 

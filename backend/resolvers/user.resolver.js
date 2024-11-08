@@ -26,8 +26,8 @@ const userResolver = {
 
                 // https://avatar.iran.liara.run/public/boy?username=Scott
 
-                const boyProfilePic = 'https://avatar.iran.liara.run/public/boy?username=${username}';
-                const girlProfilePic = 'https://avatar.iran.liara.run/public/boy?username=${username}';
+                const boyProfilePic = 'https://avatar.iran.liara.run/public/boy?username='+username;
+                const girlProfilePic = 'https://avatar.iran.liara.run/public/boy?username='+username;
 
                 const newUser = new User({
                     username,
@@ -75,12 +75,12 @@ const userResolver = {
         logout:async(_,__,context) =>{
             try{
                 await context.logout();
-                req.session.destroy((err) =>{
+                context.req.session.destroy((err) =>{
                     if(err) throw err;
                         
                 });
-                res.clearCookie("connect.sid");
-                return {mdessage: "Logged out succesfully"};
+                context.res.clearCookie("connect.sid");
+                return {message: "Logged out succesfully"};
 
             }
             catch (err){
