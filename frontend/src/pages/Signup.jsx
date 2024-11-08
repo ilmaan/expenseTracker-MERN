@@ -45,6 +45,10 @@ const SignUpPage = () => {
 		console.log("clicked");
 		e.preventDefault();
 		console.log("SIGNUP DATA--->",signUpData);
+		if(!signUpData.username || !signUpData.password || !signUpData.name || !signUpData.gender){
+			toast.error("Please fill all the fields");
+			return;
+		}
 		try{
 			await signUp({variables: {input: signUpData}})
 			// console.log("Response from signup:", response); 

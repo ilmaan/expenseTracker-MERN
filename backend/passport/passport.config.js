@@ -44,6 +44,7 @@ export const configurePassport = async () => {
             }
             catch(err){
                 console.log(err);
+                return done(err);
             }
         })
     )
