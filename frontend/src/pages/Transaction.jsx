@@ -1,7 +1,15 @@
 import { useState } from "react";
 import TransactionFormSkeleton from "../components/skeletons/TransactionFormSkeleton";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_TRANSACTION } from "../graphql/queries";
 
 const TransactionPage = () => {
+
+	const {id} = useParams();
+
+	console.log("transactionId----->>>", id,'=-=-=-',useParams());
+
 	const [formData, setFormData] = useState({
 		description: "",
 		paymentType: "",
@@ -30,7 +38,7 @@ const TransactionPage = () => {
 	return (
 		<div className='h-screen max-w-4xl mx-auto flex flex-col items-center'>
 			<p className='md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-pink-600 via-indigo-500 to-pink-400 inline-block text-transparent bg-clip-text'>
-				Update this transaction
+				Update this transaction hero
 			</p>
 			<form className='w-full max-w-lg flex flex-col gap-5 px-3 ' onSubmit={handleSubmit}>
 				{/* TRANSACTION */}

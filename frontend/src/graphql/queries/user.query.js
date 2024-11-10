@@ -8,6 +8,7 @@ export const GET_AUTH_USER = gql`
 			name
 			password
 			gender
+			profilePicture
 			
 		}
 	}

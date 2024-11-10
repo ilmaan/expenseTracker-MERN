@@ -1,4 +1,22 @@
+import { useMutation } from "@apollo/client";
+import { CREATE_TRANSACTION } from "../../graphql/mutations/transaction.mutation";
+import { toast } from "react-hot-toast";
+import { GET_TRANSACTIONS } from "../../graphql/queries/transaction.query";
+
 const TransactionForm = () => {
+
+	// TODO: REfetch once you create the transaction <<<< DONE
+
+	// TODO WHEN RELATIONSHIPS ARE ADDED CHANGE REFETCH QUERY
+	
+
+	const [createTransaction, { loading, error }] = useMutation(CREATE_TRANSACTION,
+		{
+			refetchQueries: [GET_TRANSACTIONS],
+		}
+	);
+
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -12,8 +30,24 @@ const TransactionForm = () => {
 			location: formData.get("location"),
 			date: formData.get("date"),
 		};
-		console.log("transactionData", transactionData);
+		console.log("transactionData----------", transactionData);
+
+		try{
+			await createTransaction({variables: {input: transactionData}});
+			toast.success("Transaction added successfully");
+			form.reset();
+		}
+		catch(error){
+			console.log("Error in creating transactions--->>>:", error);
+			toast.error("ERROR IN TRANSACTION ADDING PLEASE ADD AGAIN");
+			toast.error(error.message);
+		}
 	};
+
+	
+	
+
+	
 
 	return (
 		<form className='w-full max-w-lg flex flex-col gap-5 px-3' onSubmit={handleSubmit}>
@@ -32,7 +66,7 @@ const TransactionForm = () => {
 						name='description'
 						type='text'
 						required
-						placeholder='Rent, Groceries, Salary, etc.'
+						placeholder='Rent, Groceries, Salary, Sex, etc.'
 					/>
 				</div>
 			</div>
@@ -107,6 +141,7 @@ const TransactionForm = () => {
 						name='amount'
 						type='number'
 						placeholder='150'
+						required
 					/>
 				</div>
 			</div>
@@ -126,6 +161,7 @@ const TransactionForm = () => {
 						name='location'
 						type='text'
 						placeholder='New York'
+						required
 					/>
 				</div>
 
@@ -141,6 +177,8 @@ const TransactionForm = () => {
 						className='appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-[11px] px-4 mb-3 leading-tight focus:outline-none
 						 focus:bg-white'
 						placeholder='Select date'
+						// value={new Date().toISOString().split('T')[0]}
+						required
 					/>
 				</div>
 			</div>
@@ -150,8 +188,9 @@ const TransactionForm = () => {
           from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600
 						disabled:opacity-70 disabled:cursor-not-allowed'
 				type='submit'
+				disabled={loading}
 			>
-				Add Transaction
+				{loading ? "Adding..." : "Add Transactions"}
 			</button>
 		</form>
 	);

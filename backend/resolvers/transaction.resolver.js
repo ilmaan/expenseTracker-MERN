@@ -79,8 +79,24 @@ const transactionResolver = {
                 throw new Error("ERROR DELETING TRANSACTION")
                 }
         },
+
+        deleteTransaction: async (_, {transactionID},context) => {
+            try{
+                const deleteTransaction = await Transaction.findByIdAndDelete(transactionID);
+                if (!deleteTransaction) {
+                    throw new Error("Transaction not found");
+                }
+                return deleteTransaction;
+            }
+            catch (err){
+                console.log('ERROR IN TRANSACTION DELETE -->',err);
+                throw new Error("ERROR DELETING TRANSACTION")
+            }
+        },
     
     },
+
+
 
     // TO DO => ADD TRANSACTION USER RELATIONSHIP
 
