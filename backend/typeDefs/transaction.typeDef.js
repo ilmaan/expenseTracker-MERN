@@ -12,7 +12,7 @@ const transactionTypeDef = `#graphql
 
     type Query{
         transactions: [Transaction!]!
-        transaction(transactionID: ID!): Transaction
+        transaction(transactionId: ID!): Transaction
         #  TO DO => ADD CATEGORY STATS QUERY
     }
 
@@ -32,13 +32,15 @@ const transactionTypeDef = `#graphql
     }
 
     input updateTransactionInput{
-        transactionID: ID!
+        _id: ID
+        transactionId: ID
         userId: ID
         description: String
         amount: Float
         category: String
         location: String
         date: String
+        paymentType: String
     }
 
 

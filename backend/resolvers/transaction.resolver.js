@@ -21,6 +21,7 @@ const transactionResolver = {
         },
         transaction:  async (_,{transactionId},context) =>{
         try{
+            console.log("transactionId----->>>", transactionId);
             const transaction = await Transaction.findById(transactionId);
             return transaction;
 
@@ -58,7 +59,9 @@ const transactionResolver = {
 
         updateTransaction: async (_, {input},context) =>{
             try{
+                console.log("inputUPDATED----->>>", input,';---',input.id);
                 const updateTransaction = await Transaction.findByIdAndUpdate(input.transactionId,input,{new:true}); // new give object after the update is app;ied
+                console.log("updateTransaction----->>>", updateTransaction);
                 return updateTransaction;
 
             }
@@ -80,19 +83,7 @@ const transactionResolver = {
                 }
         },
 
-        deleteTransaction: async (_, {transactionID},context) => {
-            try{
-                const deleteTransaction = await Transaction.findByIdAndDelete(transactionID);
-                if (!deleteTransaction) {
-                    throw new Error("Transaction not found");
-                }
-                return deleteTransaction;
-            }
-            catch (err){
-                console.log('ERROR IN TRANSACTION DELETE -->',err);
-                throw new Error("ERROR DELETING TRANSACTION")
-            }
-        },
+        
     
     },
 
