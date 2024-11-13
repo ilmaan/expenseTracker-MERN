@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_TRANSACTION } from "../../graphql/mutations/transaction.mutation";
 import { toast } from "react-hot-toast";
 import { GET_TRANSACTIONS } from "../../graphql/queries/transaction.query";
+import { GET_CATEGORY_STATS } from "../../graphql/queries/transaction.query";
 
 const TransactionForm = () => {
 
@@ -12,7 +13,7 @@ const TransactionForm = () => {
 
 	const [createTransaction, { loading, error }] = useMutation(CREATE_TRANSACTION,
 		{
-			refetchQueries: [GET_TRANSACTIONS],
+			refetchQueries: [GET_TRANSACTIONS, GET_CATEGORY_STATS],
 		}
 	);
 

@@ -13,6 +13,10 @@ import { GET_TRANSACTIONS } from "../../graphql/queries/transaction.query";
 import toast from "react-hot-toast";
 import { DELETE_TRANSACTION } from "../../graphql/mutations/transaction.mutation";
 
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORY_STATS } from "../../graphql/queries/transaction.query";
+
+
 
 
 
@@ -32,12 +36,21 @@ const Card = ({ transaction }) => {
 
 	console.log("transaction--ID--->>>", transaction._id);
 
+
+	const [deleteTransaction, {loading, error}] = useMutation(DELETE_TRANSACTION,
+		{
+			refetchQueries: [GET_TRANSACTIONS, GET_CATEGORY_STATS]
+		}
+	);
+
 	const handleDelete = async () => {
 		console.log("delete----->>>");
+		
 	
 		try{
-			await deleteTransaction({variables: {transactionID: transaction._id}});
+			await deleteTransaction({variables: {transactionId: transaction._id}});
 			toast.success("Transaction deleted successfully");
+			
 	
 	
 		}
@@ -48,11 +61,7 @@ const Card = ({ transaction }) => {
 	
 	};
 
-	const [deleteTransaction, {loading, error}] = useMutation(DELETE_TRANSACTION,
-		{
-			refetchQueries: [GET_TRANSACTIONS]
-		}
-	);
+	
 
 	console.log("transaction----->>>", transaction);
 

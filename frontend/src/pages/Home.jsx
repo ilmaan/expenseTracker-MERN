@@ -9,18 +9,31 @@ import { MdLogout } from "react-icons/md";
 
 import { toast } from "react-hot-toast";
 import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { LOGOUT } from "../graphql/mutations/user.mutation";
 import { GET_AUTH_USER } from "../graphql/queries/user.query";
+import { GET_CATEGORY_STATS } from "../graphql/queries/transaction.query";
 
+import { useEffect } from "react";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HomePage = () => {
+	const [logout, { loading, error,client }] = useMutation(LOGOUT, {
+		refetchQueries: [GET_AUTH_USER],
+	});
+	
+	const {data: categoryStats, refetch} = useQuery(GET_CATEGORY_STATS);
+	console.log("categoryStats----->>>", categoryStats);
+	
 	const chartData = {
-		labels: ["Saving", "Expense", "Investment","losses"],
+		// labels: ["Saving", "Expense", "Investment"],
+		labels: categoryStats?.categoryStats?.map(stat => stat.category) || [],
 		datasets: [
 			{
 				label: "%",
-				data: [13, 8, 3, 6],
+				// data: [13, 8, 3],
+				data: categoryStats?.categoryStats?.map(stat => stat.amount) || [],
+
 				backgroundColor: ["rgba(75, 192, 192)", "rgba(255, 99, 132)", "rgba(54, 162, 235)", "rgba(255, 206, 86)", ],
 				borderColor: ["rgba(75, 192, 192)", "rgba(255, 99, 132)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)"],
 				borderWidth: 1 ,
@@ -31,10 +44,6 @@ const HomePage = () => {
 		],
 	};
 
-	const [logout, { loading, error }] = useMutation(LOGOUT, {
-		refetchQueries: [GET_AUTH_USER],
-	});
-
 
 	const handleLogout = async () => {
 		console.log("Logging out...");
@@ -43,6 +52,8 @@ const HomePage = () => {
 			// navigate("/login");
 			// CLEAR THE APOLLO CACHE
 			// client.clearStore();
+			toast.success("Logged out successfully");
+			client.resetStore();
 		}catch(error){
 			console.log("Error logging out:", error);
 			toast.error(error.message);

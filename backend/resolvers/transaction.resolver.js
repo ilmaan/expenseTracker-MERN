@@ -31,12 +31,36 @@ const transactionResolver = {
             throw new Error("ERROR GETTING TRANSACTION ONE")
         }
         
-        }
+        },
+
+        // TO DO => ADD CATEGORY STATS QUERY
+
+        categoryStats: async (_,__,context) =>{
+            if (!context.getUser()) throw new Error("UNAUTHORIZED ACCESS STOP PLAYING FOO");
+            
+            const userId = await context.getUser()._id;
+            const transactions = await Transaction.find({userId});
+            console.log("transactions----->>>", transactions);
+
+            const categoryMap = {};
+
+            transactions.forEach(transaction => {
+                if (!categoryMap[transaction.category]){
+                    categoryMap[transaction.category] = 0;
+                }
+                categoryMap[transaction.category] += transaction.amount;
+            });
+
+            return Object.entries(categoryMap).map(([category,amount]) => ({category,amount}));
+        },
+
+
 
     },
     
 
-    // TO DO => ADD CATEGORY STATS QUERY
+
+
 
     Mutation: {
         createTransaction: async (_, {input},context) =>{

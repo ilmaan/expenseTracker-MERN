@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_TRANSACTION } from "../graphql/queries/transaction.query";
 
 import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
+import { GET_CATEGORY_STATS } from "../graphql/queries/transaction.query";
 
 
 import { formatDate } from "../utils/formatDate";
@@ -34,7 +35,11 @@ const TransactionPage = () => {
 		console.log("error----->>>", error);
 
 
-		const [updateTransaction,{loading: updateLoading, error: updateError}] = useMutation(UPDATE_TRANSACTION);
+		const [updateTransaction,{loading: updateLoading, error: updateError}] = useMutation(UPDATE_TRANSACTION,
+			{
+				refetchQueries: [GET_TRANSACTION, GET_CATEGORY_STATS]
+			}
+		);
 		
 	
 
