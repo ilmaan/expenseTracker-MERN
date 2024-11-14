@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import InputField from "../components/ui/inputField";
-import { LOGIN } from "../graphql/mutations/user.mutation";
+import InputField from "../components/ui/inputField.jsx";
+import { LOGIN } from "../graphql/mutations/user.mutation.js";
 import { useMutation } from "@apollo/client";
 import { GET_AUTH_USER } from "../graphql/queries/user.query";
 import { toast } from "react-hot-toast";
