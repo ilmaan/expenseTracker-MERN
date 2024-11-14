@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import Card from "./Card";
+import Card from "./Card.jsx";
 import { GET_TRANSACTIONS } from "../../graphql/queries/transaction.query";
 import { GET_USER } from "../../graphql/queries/user.query";
 import { GET_AUTH_USER } from "../../graphql/queries/user.query";
