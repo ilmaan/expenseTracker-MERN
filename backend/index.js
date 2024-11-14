@@ -16,6 +16,8 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 
 import { buildContext } from 'graphql-passport';
 
+import path from 'path';
+
 
 // import mergedResolvers from './resolvers/index.js';
 // import mergedTypeDefs from './typeDefs/index.js';
@@ -29,6 +31,8 @@ import connectMongo from 'connect-mongodb-session';
 
 import { configurePassport } from './passport/passport.config.js';
 
+
+const __dirname = path.resolve();
 
 
 const app = express();
@@ -80,6 +84,24 @@ app.use(passport.session());
 
 
 
+// Serve static files from the frontend dist directory
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+// Catch-all route to serve index.html for any other requests
+app.get('*', (req, res) => {
+    const filePath = path.join(__dirname, 'frontend/dist/index.html');
+    console.log('Serving static file for:', req.url); // Log the request URL
+    console.log('File path:', filePath); // Log the file path being served
+
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Error serving file:', err); // Log any errors
+            res.status(err.status).end();
+        }
+    });
+});
+
+
 const server = new ApolloServer({
     typeDefs: mergedTypeDefs,
     resolvers: mergedResolvers,
@@ -121,6 +143,20 @@ app.use(
     }),
   );
   
+
+  //RENDED.COm for deployment both backend and frontend under same domain
+
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  
+app.get('*', (req, res) => {
+    console.log('Serving static file for:', req.url);
+    res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+  });
+
+
+
+
   // Modified server startup
   await new Promise((resolve) =>
     httpServer.listen({ port: 4000 }, resolve),
