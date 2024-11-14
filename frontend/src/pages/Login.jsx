@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import InputField from "../components/ui/inputField.jsx";
+import InputField from "../components/ui/InputField.jsx";
 import { LOGIN } from "../graphql/mutations/user.mutation.js";
 import { useMutation } from "@apollo/client";
 import { GET_AUTH_USER } from "../graphql/queries/user.query";
