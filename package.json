@@ -1,7 +1,7 @@
 {
   "name": "expensetracker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "indewex.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node backend/index.js",
     "dev": "cross-env NODE_ENV=development nodemon backend/index.js",
