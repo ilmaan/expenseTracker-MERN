@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import InputField from "../components/ui/inputField";
-import RadioButton from "../components/ui/RadioButton";
+import InputField from "../components/ui/InputField.jsx";
+import RadioButton from "../components/ui/RadioButton.jsx";
 import { useMutation } from "@apollo/client";
 // import { SIGNUP_USER } from "../graphql/mutations/user.mutation";
 import { toast } from "react-hot-toast";
