@@ -85,11 +85,11 @@ app.use(passport.session());
 
 
 // Serve static files from the frontend dist directory
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
 // Catch-all route to serve index.html for any other requests
 app.get('*', (req, res) => {
-    const filePath = path.join(__dirname, 'frontend/dist/index.html');
+    const filePath = path.join(__dirname, '/frontend/dist/index.html');
     console.log('Serving static file for:', req.url); // Log the request URL
     console.log('File path:', filePath); // Log the file path being served
 
