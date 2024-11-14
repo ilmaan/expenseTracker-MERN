@@ -1,6 +1,8 @@
 import { useQuery } from "@apollo/client";
 import Card from "./Card";
 import { GET_TRANSACTIONS } from "../../graphql/queries/transaction.query";
+import { GET_USER } from "../../graphql/queries/user.query";
+import { GET_AUTH_USER } from "../../graphql/queries/user.query";
 
 
 
@@ -8,6 +10,20 @@ const Cards = () => {
 
 	const { data, loading, error } = useQuery(GET_TRANSACTIONS);
 	console.log("data------TRANSACTIONS---->>>", data);
+	
+
+	const {data: authUser} = useQuery(GET_AUTH_USER);
+	console.log("authUser----<><><><><->>>", authUser?.authUser?.id);
+	
+
+	const {data: user, loading: userLoading} = useQuery(GET_USER,
+		{
+			variables: {
+				userId: authUser?.authUser?.id
+			}
+		}
+	);
+	console.log("user---)))))))))))))---->>>", user);
 
 	if(error) return <p>Error: {error.message}</p>;
 	

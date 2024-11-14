@@ -40,7 +40,7 @@ const transactionResolver = {
             
             const userId = await context.getUser()._id;
             const transactions = await Transaction.find({userId});
-            console.log("transactions----->>>", transactions);
+            // console.log("transactions----->>>", transactions);
 
             const categoryMap = {};
 

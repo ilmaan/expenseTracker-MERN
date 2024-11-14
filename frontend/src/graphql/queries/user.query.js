@@ -13,3 +13,25 @@ export const GET_AUTH_USER = gql`
 		}
 	}
 `;
+
+export const GET_USER = gql`
+	query getUser($userId: ID!) {
+		user(userId: $userId) {
+			transactions {
+				_id
+				name
+				username
+				profilePicture
+				transactions {
+					_id
+					description
+					paymentType
+					category
+					amount
+					location
+					date
+				}
+			}
+		}
+	}
+`;

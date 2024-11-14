@@ -23,6 +23,12 @@ const HomePage = () => {
 	});
 	
 	const {data: categoryStats, refetch} = useQuery(GET_CATEGORY_STATS);
+	const {data: authUser} = useQuery(GET_AUTH_USER);
+
+
+	console.log("authUser----->>>", authUser);
+
+
 	console.log("categoryStats----->>>", categoryStats);
 	
 	const chartData = {
@@ -70,7 +76,8 @@ const HomePage = () => {
 						Spend wisely, track wisely
 					</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						// src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={authUser?.authUser?.profilePicture}
 						className='w-11 h-11 rounded-full border cursor-pointer'
 						alt='Avatar'
 					/>

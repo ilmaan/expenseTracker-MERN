@@ -15,6 +15,7 @@ import { DELETE_TRANSACTION } from "../../graphql/mutations/transaction.mutation
 
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORY_STATS } from "../../graphql/queries/transaction.query";
+import { GET_AUTH_USER } from "../../graphql/queries/user.query";
 
 
 
@@ -34,7 +35,10 @@ const Card = ({ transaction }) => {
 
 	let {category, description, cardType, paymentType, amount, location, date, createdAt} = transaction;
 
+
 	console.log("transaction--ID--->>>", transaction._id);
+
+	const {data: authUser} = useQuery(GET_AUTH_USER);
 
 
 	const [deleteTransaction, {loading, error}] = useMutation(DELETE_TRANSACTION,
@@ -119,7 +123,7 @@ const Card = ({ transaction }) => {
 				<div className='flex justify-between items-center'>
 					<p className='text-xs text-black font-bold'>{formattedDate}</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={authUser?.authUser?.profilePicture}
 						className='h-8 w-8 border rounded-full'
 						alt=''
 					/>
