@@ -1,0 +1,10 @@
+pipeline{
+    agent any
+    stages{
+        stage('Build-temp'){
+            steps{
+                sh 'echo "Building the application"'
+            }
+        }
+    }
+}
