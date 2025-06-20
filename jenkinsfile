@@ -2,8 +2,28 @@ pipeline{
     agent any
     stages{
         stage('Build-temp'){
+
+            agent{
+                docker{
+                    image 'node:18'
+                    reuseNode true
+                }
+            }
+
             steps{
-                sh 'echo "Building the application"'
+                sh '''
+                echo "Building the application"
+                node --version
+                npm --version
+
+                npm ci
+
+                npm run build
+
+                ls -la
+
+                '''
+
             }
         }
     }
